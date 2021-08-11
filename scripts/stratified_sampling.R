@@ -94,7 +94,7 @@ repeat {
   if(length(temp) == 1){
     Empty <- rbind.SpatialPointsDataFrame(Empty, samp)
   } else {
-    if(min(dist(temp@coords, method = "euclidean")) >= 100){
+    if(min(dist(temp@coords, method = "euclidean")) >= 50){
       Empty <- rbind.SpatialPointsDataFrame(Empty, samp)
     }
   }
@@ -106,7 +106,7 @@ repeat {
 plot(s[[1]], col=rev(bpy.colors(100)))
 plot(Empty, add=TRUE, col=1, pch=19)
 
-values <- extract(s, Empty)
+values <- raster::extract(s, Empty)
 
 hist(values[,1])
 hist(values[,2])
@@ -118,6 +118,6 @@ hist(values[,7])
 
 Empty$id <- 1:nrow(Empty)
 
-st_write(st_as_sf(Empty), "samples/Sample100_100m.gpkg")
+st_write(st_as_sf(Empty), "samples/Sample100_50m.gpkg")
 
 
